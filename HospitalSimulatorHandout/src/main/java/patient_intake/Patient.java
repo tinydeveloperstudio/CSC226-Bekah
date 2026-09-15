@@ -13,94 +13,109 @@ public class Patient extends Person {
                    String chiefComplaint, int triageLevel, String currentStage, 
                    String assignedRoom, int arrivalHour, String insuranceID) {
         super(firstName, lastName, age);
-        // TODO REQUIRED: Initialize the patient-specific fields.
+        patientID = this.patientID;
+        firstName = this.firstName;
+        lastName = this.lastName;
+        age = this.age;
+        chiefComplaint = this.chiefComplaint;
+        triageLevel = this.triageLevel;
+        currentStage = this.currentStage;
+        assignedRoom = this.assignedRoom;
+        arrivalHour = this.arrivalHour;
+        insuranceID = this.insuranceID;
     }
 
     // Getters
     public String getPatientID() {
-        return null; // TODO REQUIRED: Return the patient ID.
+        return patientID; //Returns the patient ID.
     }
 
     public String getFirstName() {
-        return null; // TODO REQUIRED: Return the first name.
+        return firstName; //Returns the first name.
     }
 
     public String getLastName() {
-        return null; // TODO REQUIRED: Return the last name.
+        return lastName; //Returns the last name.
     }
 
     public int getAge() {
-        return 0; // TODO REQUIRED: Return the age.
+        return age; //Returns the age.
     }
 
     public String getChiefComplaint() {
-        return null; // TODO REQUIRED: Return the chief complaint.
+        return chiefComplaint; //Returns the chief complaint.
     }
 
     public int getTriageLevel() {
-        return 0; // TODO REQUIRED: Return the triage level.
+        return triageLevel; //Returns the triage level.
     }
 
     public String getCurrentStage() {
-        return null; // TODO REQUIRED: Return the current stage.
+        return currentStage; //Returns the current stage.
     }
 
     public String getAssignedRoom() {
-        return null; // TODO REQUIRED: Return the assigned room.
+        return assignedRoom; //Returns the assigned room.
     }
 
     public int getArrivalHour() {
-        return 0; // TODO REQUIRED: Return the arrival hour.
+        return arrivalHour; //Returns the arrival hour.
     }
 
     public String getInsuranceID() {
-        return null; // TODO REQUIRED: Return the insurance ID.
+        return insuranceID; //Returns the insurance ID.
     }
 
     // Setters
     public void setPatientID(String patientID) {
-        // TODO REQUIRED: Update the patient ID.
+        patientID = this.patientID; //Updates the patient ID.
     }
 
     public void setFirstName(String firstName) {
-        // TODO REQUIRED: Update the first name.
+        firstName = this.firstName; //Updates the first name.
     }
 
     public void setLastName(String lastName) {
-        // TODO REQUIRED: Update the last name.
+        lastName = this.lastName; //Updates the last name.
     }
 
     public void setAge(int age) {
-        // TODO REQUIRED: Update the age.
-        // OPTIONAL (+5%): Reject ages outside the range 0 through 120.
+        if (age >= 0 && age <= 120) {
+            age = this.age; //Updates the age.
+        } else {
+            System.out.println("Error: Age must be between 0 and 120. Please ensure the patient's age is within this range.");
+        }
     }
 
     public void setChiefComplaint(String chiefComplaint) {
-        // TODO REQUIRED: Update the chief complaint.
+        chiefComplaint = this.chiefComplaint; //Updates the chief complaint.
     }
 
     public void setTriageLevel(int triageLevel) {
-        // TODO REQUIRED: Update the triage level.
+        triageLevel = this.triageLevel; //Updates the triage level.
     }
 
     public void setCurrentStage(String currentStage) {
-        // TODO REQUIRED: Update the current stage.
+        currentStage = this.currentStage; //Updates the current stage.
     }
 
     public void setAssignedRoom(String assignedRoom) {
-        // TODO REQUIRED: Update the assigned room.
+        assignedRoom = this.assignedRoom; //Updates the assigned room.
     }
 
     public void setArrivalHour(int arrivalHour) {
-        // TODO REQUIRED: Update the arrival hour.
+        arrivalHour = this.arrivalHour; //Updates the arrival hour.
     }
 
     public void setInsuranceID(String insuranceID) {
-        // TODO REQUIRED: Update the insurance ID.
+        insuranceID = this.insuranceID; //Updates the insurance ID.
     }
 
     @Override
     public String toString() {
-        return ""; // TODO REQUIRED: Return a useful representation of a patient.
+        return "Patient Data: " + "\nName: " + firstName + " " + lastName + "\nAge: " + age + "\nChief Complaint: " 
+        + chiefComplaint + "\nTriage Level: " + triageLevel + "\nCurrent Stage: " + currentStage + "\nAssigned Room: " 
+        + assignedRoom + "\nArrival Hour: " + arrivalHour + "\nInsurance ID: " + insuranceID; 
+        //Returns a useful representation of a patient.
     }
 }
