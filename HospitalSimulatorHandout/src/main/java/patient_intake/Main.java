@@ -65,6 +65,6 @@ public class Main {
          + arrivalHour + "\nInsurance ID: " + insuranceID);
       } catch (FileNotFoundException exception) {
          System.out.println("Error: File not found. Check that the patient csv file exists and the path is correct.");
-      }
+      }  //hello
    }
 }
