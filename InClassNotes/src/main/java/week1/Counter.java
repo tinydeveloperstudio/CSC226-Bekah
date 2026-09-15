@@ -7,10 +7,10 @@ public class Counter {
     // 2. Add a private field
     private int count = 0;
     // 3. Write the default constructor
-    public Counter{
+    public Counter(){
     }
     // 4. Add an alternate constructor
-    public Counter(string CounterName){
+    public Counter(String CounterName){
     }
     // 5. Write an accessor method
     public int GetCount(){
@@ -32,7 +32,7 @@ public class Counter {
     }
     //9. Add a fixed-size history array that records the last 5 states of the counter. All logic must happen inside of the object and be hidden from the user.
     private void RecordSize(){
-        int[] historyList = new Counter[5];
+        int[] historyList = new int[5];
         for (int i = 0; i <= 4; i++){
             historyList[i] = GetCount();
         }
