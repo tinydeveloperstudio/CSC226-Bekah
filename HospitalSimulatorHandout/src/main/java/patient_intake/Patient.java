@@ -1,5 +1,16 @@
+/**
+ * Author: Beck Bledsoe
+ * Version: 09/16/2026
+ * 
+ */
+
 package patient_intake;
 
+/**
+ * Summary: This class contains the functionality for the patient. It includes getter and setter methods
+ *          as well as a constructor and toString method.
+ * Patient
+ */
 public class Patient extends Person {
     private String patientID;
     private String chiefComplaint;
@@ -13,94 +24,111 @@ public class Patient extends Person {
                    String chiefComplaint, int triageLevel, String currentStage, 
                    String assignedRoom, int arrivalHour, String insuranceID) {
         super(firstName, lastName, age);
-        // TODO REQUIRED: Initialize the patient-specific fields.
+        this.patientID = patientID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.chiefComplaint = chiefComplaint;
+        this.triageLevel = triageLevel;
+        this.currentStage = currentStage;
+        this.assignedRoom = assignedRoom;
+        this.arrivalHour = arrivalHour;
+        this.insuranceID = insuranceID;
     }
 
     // Getters
     public String getPatientID() {
-        return null; // TODO REQUIRED: Return the patient ID.
+        return patientID; //Returns the patient ID.
     }
 
     public String getFirstName() {
-        return null; // TODO REQUIRED: Return the first name.
+        return firstName; //Returns the first name.
     }
 
     public String getLastName() {
-        return null; // TODO REQUIRED: Return the last name.
+        return lastName; //Returns the last name.
     }
 
     public int getAge() {
-        return 0; // TODO REQUIRED: Return the age.
+        return age; //Returns the age.
     }
 
     public String getChiefComplaint() {
-        return null; // TODO REQUIRED: Return the chief complaint.
+        return chiefComplaint; //Returns the chief complaint.
     }
 
     public int getTriageLevel() {
-        return 0; // TODO REQUIRED: Return the triage level.
+        return triageLevel; //Returns the triage level.
     }
 
     public String getCurrentStage() {
-        return null; // TODO REQUIRED: Return the current stage.
+        return currentStage; //Returns the current stage.
     }
 
     public String getAssignedRoom() {
-        return null; // TODO REQUIRED: Return the assigned room.
+        return assignedRoom; //Returns the assigned room.
     }
 
     public int getArrivalHour() {
-        return 0; // TODO REQUIRED: Return the arrival hour.
+        return arrivalHour; //Returns the arrival hour.
     }
 
     public String getInsuranceID() {
-        return null; // TODO REQUIRED: Return the insurance ID.
+        return insuranceID; //Returns the insurance ID.
     }
 
     // Setters
     public void setPatientID(String patientID) {
-        // TODO REQUIRED: Update the patient ID.
+        this.patientID = patientID; //Updates the patient ID.
     }
 
     public void setFirstName(String firstName) {
-        // TODO REQUIRED: Update the first name.
+        this.firstName = firstName; //Updates the first name.
     }
 
     public void setLastName(String lastName) {
-        // TODO REQUIRED: Update the last name.
+        this.lastName = lastName; //Updates the last name.
     }
 
     public void setAge(int age) {
-        // TODO REQUIRED: Update the age.
-        // OPTIONAL (+5%): Reject ages outside the range 0 through 120.
+        if (age >= 0 && age <= 120) {
+            this.age = age; //Updates the age.
+        }
+        else {
+            System.out.print(IllegalArgumentException.class);
+            System.out.println("Error: Age must be between 0 and 120. Please ensure the patient's age is within this range.");
+        }
     }
 
     public void setChiefComplaint(String chiefComplaint) {
-        // TODO REQUIRED: Update the chief complaint.
+        this.chiefComplaint = chiefComplaint; //Updates the chief complaint.
     }
 
     public void setTriageLevel(int triageLevel) {
-        // TODO REQUIRED: Update the triage level.
+        this.triageLevel = triageLevel; //Updates the triage level.
     }
 
     public void setCurrentStage(String currentStage) {
-        // TODO REQUIRED: Update the current stage.
+        this.currentStage = currentStage; //Updates the current stage.
     }
 
     public void setAssignedRoom(String assignedRoom) {
-        // TODO REQUIRED: Update the assigned room.
+        this.assignedRoom = assignedRoom; //Updates the assigned room.
     }
 
     public void setArrivalHour(int arrivalHour) {
-        // TODO REQUIRED: Update the arrival hour.
+        this.arrivalHour = arrivalHour; //Updates the arrival hour.
     }
 
     public void setInsuranceID(String insuranceID) {
-        // TODO REQUIRED: Update the insurance ID.
+        this.insuranceID = insuranceID; //Updates the insurance ID.
     }
 
     @Override
     public String toString() {
-        return ""; // TODO REQUIRED: Return a useful representation of a patient.
+        return "Class Name:" + Patient.class.getName() + "\nPatient Data: " + "\nPatient ID: " + patientID + "\nName: " + firstName + 
+        " " + lastName + "\nAge: " + age + "\nChief Complaint: " + chiefComplaint + "\nTriage Level: " + triageLevel + "\nCurrent Stage: "
+        + currentStage + "\nAssigned Room: " + assignedRoom + "\nArrival Hour: " + arrivalHour + "\nInsurance ID: " + insuranceID; 
+        //Returns a useful representation of a patient.
     }
 }
