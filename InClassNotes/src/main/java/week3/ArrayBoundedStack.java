@@ -13,29 +13,38 @@ public class ArrayBoundedStack<T> implements StackInterface<T> {
     }
     public boolean isEmpty()
     {
-        //TODO: how do we determine if the stack is empty? Implement this method
-        return false;
+        if (elements.length > 0) {
+            return false;   //Returns false if the bounded stack is not empty
+        }
+        else {
+            return true;    //Returns true if the bounded stack is empty
+        }
     }
 
     public boolean isFull()
     {
-        //TODO: How do we determine if the stack is full? Implement this method
-        return false;
+        if (elements.length == DEFAULTCAP) {
+            return true;    //Returns true if the bounded stack is at its cap size
+        }
+        else {
+            return false;   //Returns false if the bounded stack is not at its cap size
+        }
     }
     
     public void push(T element)
     {
-       // TODO: How do we add an element to the stack? Implement this method
+        elements[topIndex + 1] = element;   //Adds the element to the top index
+        topIndex++;     //Increments the topIndex up one value
     }
     
     public void pop()
     {
-        // How do we remove an element from the stack? Implement this method
+        elements[topIndex + 1] = null;  //Changes the value at the top index to null
+        topIndex--;     //Increments the topIndex down one value
     }
     
     public T top()
     {
-      // How do we return the top element of the stack without removing it? Implement this method
-      return null;   
+      return elements[topIndex + 1];    //Returns the element at the top index value
     }
 }
