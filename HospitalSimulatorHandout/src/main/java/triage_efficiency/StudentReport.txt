@@ -1,0 +1,56 @@
+Research for Alternate O(logn) Search Method:
+    Source: https://www.geeksforgeeks.org/dsa/ternary-search/
+    I researched the ternary search function which divides the list/array into 3 parts using two midpoints.
+    If the value being searched for is equal to the values at midpoint1 or midpoint2, the search ends and returns the result.
+
+    If the value being searched for is less than the value at midpoint1, the highestIndex is updated to be the midpoint1 - 1.
+    This allows for searching between the lowestIndex and the new highestIndex at (midpoint1 - 1) because the value did not
+    equal midpoint1 or midpoint2 and was found to be lower than midpoint1.
+    
+    If the value being searched for is higher than the value at midpoint2, the lowestIndex is updated to be the midpoint2 + 1.
+    This allows for searching between the new lowestIndex at (midpoint2 + 1) and the highestIndex because the value did not
+    equal midpoint1 or midpoint2 and was found to be higher than midpoint2.
+    
+    Otherwise, if the value is found to be above midpoint1 and below midpoint2, the lowestIndex is updated to be midpoint1 + 1,
+    and the highestIndex is updated to be midpoint2 - 1. This allows for searching between the new lowestIndex at (midpoint1 + 1)
+    and new highestIndex at (midpoint2 - 1) because the value was not equal to midpoint1 or midpoint2 and was found to be higher
+    than midpoint1 and lower than midpoint2.
+
+    Big O predicts this search method to be O(log3n). That is because the dataset is being split into thirds of its original size.
+    The code reflects this theory by setting the midpoint1 = lowestIndex + (highestIndex - lowestIndex)/3
+    and midpoint2 = highestIndex - (highestIndex - lowestIndex)/3. Midpoint1 is placed at the index of 1/3 the dataset size,
+    and midpoint2 is placed at the index of 2/3 the dataset size.
+
+Timing Comparisons & Analysis:
+    100 Patients:
+        Linear: 9,588 ns
+        Binary: 92,723 ns
+        Ternary: 36,888 ns
+    1,000 Patients:
+        Linear: 101,329 ns
+        Binary: 128,980 ns
+        Ternary: 91,311 ns
+    10,000 Patients:
+        Linear: 1,122,936 ns
+        Binary: 476,719 ns
+        Ternary: 57,507 ns
+    100,000 Patients:
+        Linear: 5,648,313 ns
+        Binary: 883,670 ns
+        Ternary: 78,266 ns
+
+    Summary Questions:
+        1. On average for linear search, as the dataset grows by 10x, the time taken grows by 10x. On average for binary search,
+           as the dataset grows by 10x, the time taken grows by 2x. On average for ternary search, as the dataset grows by 10x,
+           the time taken grows by 3x, but it gets quicker with more data.
+        2. For Carroll Memorial Hospital (with about 50,000 patients per year), I would reccommend ternary search for finding matches.
+           Ternary search is exponentially quicker with larger data sets (above 10,000) than the other two search methods.
+        3. While measuring time in nano seconds is helpful to see the performance of methods for time efficiency, it also depends on
+           the computer's internal hardware for speeds. Older computers will have slower speeds than newer ones. That is why evaluating
+           Big O time complexity of a method is more telling of how efficiently it will run as the n (dataset size) increases.
+
+ER Lookup System Analysis:
+    For ERs and hospitals, the ternary search method would be most beneficial. It has a lower time complexity than both linear and binary
+    search methods, which is reflected in the time analysis above. Because many hospitals and ERs have large datasets (above 10,000 patients),
+    the ternary method is most beneficial of the three for searching for patient matches. Nanosecond timing can be helpful for reviewing this
+    efficiency, but the time measuring can depend on the hospital's computer hardware used for searching the database/dataset.
