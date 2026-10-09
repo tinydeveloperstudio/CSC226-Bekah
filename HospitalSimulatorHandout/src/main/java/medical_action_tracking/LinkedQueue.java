@@ -7,50 +7,130 @@ public class LinkedQueue<T> {
 
         private Node(T data) {
             this.data = data;
+            next = null;
+        }
+
+        private Node GetNext() {
+            return next;
+        }
+
+        private void SetNext(Node next) {
+            this.next = next;
+        }
+
+        private T GetData() {
+            return (T) data;
         }
     }
 
     private Node front;
     private Node rear;
+    private Node current;
     private int size;
 
     public LinkedQueue() {
-        // TODO: Initialize an empty queue.
+        //Initializes an empty queue.
+        front = null;
+        rear = null;
+        size = 0;
     }
 
     public void enqueue(T item) {
-        // TODO: Add a node at the rear. Update both references when the queue is empty.
+        if (item == null) {
+            throw new IllegalArgumentException("The item to be enqueued cannot be null.");
+        }
+        current = new Node(item);
+        //Adds a node at the rear. Updates both references when the queue is empty.
+        if (size == 0) {
+            rear = current;
+            front = current;
+        }
+        else {
+            rear.SetNext(current);
+            rear = current;
+        }
+        size++;
     }
 
     public T dequeue() {
-        // TODO: Remove and return the front item, or return null if empty.
-        // TODO: When removing the last item, make both front and rear null.
-        return null;
+        //Removes and return the front item, or return null if empty.
+        //When removing the last item, makes both front and rear null.
+        T toReturn;
+        if (isEmpty()) {
+            return null;
+        }
+        else if (size == 1) {
+            toReturn = peekFront();
+            front = null;
+            rear = front;
+            size--;
+            return toReturn;
+        }
+        else {
+            toReturn = peekFront();
+            front = front.GetNext();
+            size--;
+            return toReturn;
+        }
     }
 
     public T peekFront() {
-        // TODO: Return the front item without removing it, or null if empty.
-        return null;
+        //Returns the front item without removing it, or null if empty.
+        if (front == null) {
+            return null;
+        }
+        else {
+            return front.GetData();
+        }
     }
 
     public boolean isEmpty() {
-        // TODO: Determine whether the queue contains any items.
-        return false;
+        //Determines whether the queue contains any items.
+        if (size == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public int size() {
-        // TODO: Return the number of queued items.
-        return 0;
+        //Returns the number of queued items.
+        return size;
     }
 
     @Override
     public String toString() {
-        // TODO: Recursively build a string from front to rear without changing the queue.
-        return "[]";
+        //Recursively builds a string from front to rear without changing the queue.
+        String toReturn = "";
+        current = front;
+        while(current != null) {
+            if (toReturn != "") {
+                toReturn = toReturn + ", " + current.GetData().toString();
+            }
+            else {
+               toReturn = current.GetData().toString(); 
+            }
+            current = current.GetNext();
+        }
+        return "[" + toReturn + "]";
     }
 
     private void appendNodesRecursively(Node current, StringBuilder result) {
-        // TODO: Add the current node's data, then recursively visit current.next.
-        // TODO: Stop at the null-node base case.
+        //Adds the current node's data, then recursively visit current.next.
+        //Stops at the null-node base case.
+        if (current.GetNext() != null) {
+            if (size == 0) {
+                front = current;
+                rear = current;
+            }
+            else {
+                rear.SetNext(current);
+                rear = current;
+            }
+            result.append(rear.GetData().toString());
+            current = current.GetNext();
+            appendNodesRecursively(current, result);
+        }
     }
 }
