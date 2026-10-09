@@ -20,7 +20,7 @@ public class TreatmentHistory {
      */
     public TreatmentRecord undoLastAction() {
         //Pops and returns the newest record. Empty pop returns null.
-        if (allRecords.pop() == null) {
+        if (allRecords.peek() == null) {
             return null;
         }
         else {

@@ -57,7 +57,7 @@ public class LinkedStack<T> {
         T toReturn;
         if (size > 1) {
             current = bottom;
-            for (int i = 1; i < size; i++) {
+            for (int i = 1; i < size-1; i++) {
                 current = current.GetNext();
             }
             toReturn = peek();
