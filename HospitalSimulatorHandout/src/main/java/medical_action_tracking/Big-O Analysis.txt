@@ -1,0 +1,31 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This text file contains the Big-O Analysis for methods in the Medical Action Tracking folder.
+*/
+
+Big-O Analysis:
+
+Operation: Queue enqueue/dequeue
+Complexity: Bounded O(1)
+Explanation: Because both the enqueue and dequeue functions do not have a looping structure and are not iterated based on
+             the size/number of items in the queue, they operate in bounded time.
+            
+Operation: EmergencyWaitingRoom.nextPatient()
+Complexity: Bounded O(1)
+Explanation: Because the .nextPatient method does not have an iterative loop depending on the size/number of items in each
+             queue, it operates in bounded time. It will execute the same way every time regardless of size.
+
+Operation: Stack push/pop/peek
+Complexity: Push/Peek - Bounded O(1), Pop - Linear O(N)
+Explanation: The push and peek methods for the stack operate in bounded time because they are not dependent on the size/amount of items
+             in the stack. They operate the same way regardless of stack size. Pop is linear because it is dependent on the size
+             for the iterative loop that determines the new top which is one item lower than the current top. The way to determine
+             what/where that new top item is in the stack is by iterating up the stack from the bottom until the loop reaches the
+             stack's size-1. Because it is dependent on the size (N), its complexity is linear.
+
+Operation: Recursive queue.toString()
+Complexity: Linear O(N)
+Explanation: The recursive .toString() method for the queue operates in linear time because it is dependent on the size/amount of items
+             in the stack. It will recursively call itself and add data to the string based on the amount of items in the queue.
+             Because of this, it is dependent on the size (N) and its complexity is linear.

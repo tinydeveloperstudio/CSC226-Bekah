@@ -1,3 +1,9 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This script contains the main functionality for the treatment record for each patient.
+*/
+
 package medical_action_tracking;
 
 public class TreatmentRecord {

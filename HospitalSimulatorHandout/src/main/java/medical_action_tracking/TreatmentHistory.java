@@ -1,3 +1,9 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This script contains the main functionality for the treatment history and updating patients in the record.
+*/
+
 package medical_action_tracking;
 
 public class TreatmentHistory {

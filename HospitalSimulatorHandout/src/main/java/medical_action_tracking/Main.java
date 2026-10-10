@@ -1,3 +1,9 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This script contains the main functionality for testing all the classes in the Medical Action Tracking folder.
+*/
+
 package medical_action_tracking;
 
 import patient_intake.Patient;

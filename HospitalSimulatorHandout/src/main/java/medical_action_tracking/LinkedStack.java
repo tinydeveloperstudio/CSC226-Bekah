@@ -1,3 +1,9 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This script contains the main functionality for the LinkedStack class.
+*/
+
 package medical_action_tracking;
 
 public class LinkedStack<T> {
@@ -27,11 +33,19 @@ public class LinkedStack<T> {
     private Node bottom;
     private Node current;
     private int size;
+    private int maxCapacity;
 
     public LinkedStack() {
         top = null;
         bottom = null;
         size = 0;
+    }
+
+    public LinkedStack(int maxCapacity) {
+        top = null;
+        bottom = null;
+        size = 0;
+        this.maxCapacity = maxCapacity;
     }
 
     public void push(T item) {
@@ -51,6 +65,29 @@ public class LinkedStack<T> {
         }
         size++;
     }
+
+    public void pushBounded(T item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Items to be pushed cannot be null.");
+        }
+
+        if (!isFull()) {
+            current = new Node(item);
+            //Rejects null items, then links a new node at the top and updates size. If full, throws an exception.
+            if (size == 0){
+                bottom = current;
+                top = current;
+            }
+            else {
+                top.SetNext(current);
+                top = current;
+            }
+            size++;
+        }
+        else {
+            throw new IllegalArgumentException("Cannot push an item to a full stack. Please pop the stack and try again.");
+        }
+    } 
 
     public T pop() {
         //Removes and returns the top item, or returns null when empty.
@@ -89,7 +126,16 @@ public class LinkedStack<T> {
 
     public boolean isEmpty() {
         //Determines whether the stack contains any items.
-        if (size <= 0) {
+        if (size == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isFull() {
+        if (size == maxCapacity) {
             return true;
         }
         else {
@@ -100,6 +146,21 @@ public class LinkedStack<T> {
     public int size() {
         //Returns the number of stacked items.
         return size;
+    }
+
+    //Recursive size counter for the stack
+    public int recursiveSize(Node current) {
+        if (current == null) {
+            return 0;
+        }
+        current = current.GetNext();
+        int count = recursiveSize(current);
+        return 1 + count;
+    }
+
+    //Peeks the bottom node for recursive counting (not the front node's data, but the node itself)
+    public Node peekBottomNode() {
+        return bottom;
     }
 
     @Override

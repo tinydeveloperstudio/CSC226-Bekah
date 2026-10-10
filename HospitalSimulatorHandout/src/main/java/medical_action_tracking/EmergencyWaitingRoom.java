@@ -1,3 +1,10 @@
+/**
+* Author: Beck Bledsoe
+* Version: 10/09/2026
+* Summary: This script contains the main functionality for adding patients to the waiting room queue
+*          based on triage level.
+*/
+
 package medical_action_tracking;
 
 import patient_intake.Patient;
@@ -14,6 +21,14 @@ public class EmergencyWaitingRoom {
         level2 = new LinkedQueue<Patient>();
         level3 = new LinkedQueue<Patient>();
         level4 = new LinkedQueue<Patient>();
+    }
+
+    //Constructor for emergency waiting room with a set maxCapacity
+    public EmergencyWaitingRoom(int maxCapacity) {
+        level1 = new LinkedQueue<Patient>(maxCapacity);
+        level2 = new LinkedQueue<Patient>(maxCapacity);
+        level3 = new LinkedQueue<Patient>(maxCapacity);
+        level4 = new LinkedQueue<Patient>(maxCapacity);
     }
 
     /**
@@ -35,6 +50,54 @@ public class EmergencyWaitingRoom {
             }
             else if (patient.getTriageLevel() == 4) {
                 level4.enqueue(patient);
+            }
+            else {
+                System.out.println("Patient has a triage level outside the accepted values of 1 and 4.");
+                return false;
+            }
+            return true;
+        }
+        else {
+            System.out.println("Patient is null. Please ensure the patient has been created/stored correctly.");
+            return false;
+        }
+    }
+
+    //Adds patients to a bounded queue with a fixed size
+    public boolean addPatientBounded(Patient patient) {
+        //Validates the patient and place them in the matching lane.
+        if (patient != null) {
+            if (patient.getTriageLevel() == 1) {
+                if (!level1.isFull()) {
+                    level1.enqueue(patient);
+                }
+                else {
+                    return false;
+                }
+            }
+            else if (patient.getTriageLevel() == 2) {
+                if (!level2.isFull()) {
+                    level2.enqueue(patient);
+                }
+                else {
+                    return false;
+                }
+            }
+            else if (patient.getTriageLevel() == 3) {
+                if (!level3.isFull()) {
+                    level3.enqueue(patient);
+                }
+                else {
+                    return false;
+                }
+            }
+            else if (patient.getTriageLevel() == 4) {
+                if (!level4.isFull()) {
+                    level4.enqueue(patient);
+                }
+                else {
+                    return false;
+                }
             }
             else {
                 System.out.println("Patient has a triage level outside the accepted values of 1 and 4.");
