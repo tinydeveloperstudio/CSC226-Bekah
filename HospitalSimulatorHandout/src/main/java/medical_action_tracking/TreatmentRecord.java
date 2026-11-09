@@ -6,16 +6,27 @@
 
 package medical_action_tracking;
 
+import staff_assignment.Seniority;
+
 public class TreatmentRecord {
     private String patientID;
     private String treatmentName;
     private String timestamp;
+    private String performedBy;
 
     public TreatmentRecord(String patientID, String treatmentName, String timestamp) {
         this.patientID = patientID;
         this.treatmentName = treatmentName;
         this.timestamp = timestamp;
     }
+
+    public TreatmentRecord(String patientID, String treatmentName, String timestamp, String performedBy) {
+        this.patientID = patientID;
+        this.treatmentName = treatmentName;
+        this.timestamp = timestamp;
+        this.performedBy = performedBy;
+    }
+    
 
     public String getPatientID() {
         //Returns the patient ID.
@@ -30,6 +41,10 @@ public class TreatmentRecord {
     public String getTimestamp() {
         //Returns the timestamp.
         return timestamp;
+    }
+
+    public String getPerformedBy() {
+        return performedBy;
     }
 
     @Override

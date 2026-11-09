@@ -6,6 +6,8 @@
 
 package medical_action_tracking;
 
+import staff_assignment.Seniority;
+
 public class TreatmentHistory {
     private LinkedStack<TreatmentRecord> allRecords;
 
@@ -16,6 +18,11 @@ public class TreatmentHistory {
     public void addTreatment(String patientID, String treatment, String timestamp) {
         //This is a small worked example: creates the record, then pushes it on the stack.
         TreatmentRecord record = new TreatmentRecord(patientID, treatment, timestamp);
+        allRecords.push(record);
+    }
+
+    public void addTreatment(String patientID, String treatment, String timestamp, String performedBy) {
+        TreatmentRecord record = new TreatmentRecord(patientID, treatment, timestamp, performedBy);
         allRecords.push(record);
     }
 
@@ -33,6 +40,21 @@ public class TreatmentHistory {
             return allRecords.pop();
         }
     }
+
+    /**
+     * Removes and returns the newest assignment record in the hospital-wide log.
+     * 
+     * @return the newest assignment record, or null if empty
+     */
+    public TreatmentRecord undoLastAssignment() {
+        //Calls undoLast action
+        return undoLastAction();
+    }
+
+    public TreatmentRecord peekTreatmentRecord() {
+        return allRecords.peek();
+    }
+
 
     /**
      *Returns the complete log newest-first without changing the stack.
