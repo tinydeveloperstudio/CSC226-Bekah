@@ -51,10 +51,6 @@ public class TreatmentHistory {
         return undoLastAction();
     }
 
-    public TreatmentRecord peekTreatmentRecord() {
-        return allRecords.peek();
-    }
-
 
     /**
      *Returns the complete log newest-first without changing the stack.

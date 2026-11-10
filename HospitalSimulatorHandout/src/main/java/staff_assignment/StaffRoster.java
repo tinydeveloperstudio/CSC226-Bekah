@@ -24,26 +24,32 @@ public class StaffRoster {
     private TreeSet<StaffMember> residentTree = new TreeSet<>();
     private TreeSet<StaffMember> attendingTree = new TreeSet<>();
     private Iterator<StaffMember> staffIterator;
-    private StaffMember lowestCaseLoad = null;
 
     // TODO: Add the staff member to the correct tier, and reject a duplicate staffId.
     public void addStaff(StaffMember staff) {
-        if (tiers.containsValue(staff)) {
-            throw new IllegalArgumentException();
+        //If the staff is null or the staffId already exists in the tree, throw an exception
+        if (staff == null || findById(staff.getStaffId()) != null) {
+            throw new IllegalArgumentException("Staff must not be null & cannot add duplicate entries.");
         }
-        if (staff.getSeniority().compareTo(Seniority.TECH) == 0) {
+
+        //If the staff seniority is null, throw an exception
+        if (staff.getSeniority() == null) {
+            throw new IllegalArgumentException("Staff seniority level cannot be null.");
+        }
+
+        if (staff.getSeniority().equals(Seniority.TECH)) {
             techTree.add(staff);
             tiers.put(Seniority.TECH, techTree);
         }
-        else if (staff.getSeniority().compareTo(Seniority.NURSE) == 0) {
+        else if (staff.getSeniority().equals(Seniority.NURSE)) {
             nurseTree.add(staff);
             tiers.put(Seniority.NURSE, nurseTree);
         }
-        else if (staff.getSeniority().compareTo(Seniority.RESIDENT) == 0) {
+        else if (staff.getSeniority().equals(Seniority.RESIDENT)) {
             residentTree.add(staff);
             tiers.put(Seniority.RESIDENT, residentTree);
         }
-        else if (staff.getSeniority().compareTo(Seniority.ATTENDING) == 0) {
+        else if (staff.getSeniority().equals(Seniority.ATTENDING)) {
             attendingTree.add(staff);
             tiers.put(Seniority.ATTENDING, attendingTree);
         }
@@ -51,47 +57,18 @@ public class StaffRoster {
 
     // TODO: Pick the least-loaded staff member at or above "required", raise their load by 1, and return them.
     public StaffMember assign(Seniority required) {  
-        if (Seniority.TECH.compareTo(required) >= 0) {
-            if (lowestCaseLoad == null) {
-                lowestCaseLoad = techTree.getFirst();
-            }
-            staffIterator = techTree.iterator();
-            while (staffIterator.hasNext()) {
-                if (staffIterator.next().getCaseLoad() < lowestCaseLoad.getCaseLoad()) {
-                    lowestCaseLoad = staffIterator.next();
-                }
-            }
+        if (required == null) {
+            throw new NoSuchElementException("Required seniority level cannot be null.");
         }
-        else if (Seniority.NURSE.compareTo(required) >= 0) {
-            if (lowestCaseLoad == null) {
-                lowestCaseLoad = nurseTree.getFirst();
-            }
-            staffIterator = nurseTree.iterator();
+
+        StaffMember lowestCaseLoad = null;
+
+        for (TreeSet<StaffMember> staffTree : tiers.tailMap(required).values()) {
+            staffIterator = staffTree.iterator();
             while (staffIterator.hasNext()) {
-                if (staffIterator.next().getCaseLoad() < lowestCaseLoad.getCaseLoad()) {
-                    lowestCaseLoad = staffIterator.next();
-                }
-            }
-        }
-        else if (Seniority.RESIDENT.compareTo(required) >= 0) {
-            if (lowestCaseLoad == null) {
-                lowestCaseLoad = residentTree.getFirst();
-            }
-            staffIterator = residentTree.iterator();
-            while (staffIterator.hasNext()) {
-                if (staffIterator.next().getCaseLoad() < lowestCaseLoad.getCaseLoad()) {
-                    lowestCaseLoad = staffIterator.next();
-                }
-            }
-        }
-        else if (Seniority.ATTENDING.compareTo(required) == 0) {
-            if (lowestCaseLoad == null) {
-                lowestCaseLoad = attendingTree.getFirst();
-            }
-            staffIterator = attendingTree.iterator();
-            while (staffIterator.hasNext()) {
-                if (staffIterator.next().getCaseLoad() < lowestCaseLoad.getCaseLoad()) {
-                    lowestCaseLoad = staffIterator.next();
+                StaffMember currentStaff = staffIterator.next();
+                if (isBetterAssignment(currentStaff, lowestCaseLoad)) {
+                    lowestCaseLoad = currentStaff;
                 }
             }
         }
@@ -99,16 +76,36 @@ public class StaffRoster {
         //checks if the set staff member is null. If so, it returns null Otherwise it returns the 
         //lowest case load (either the set staff at zero from the beginning, or the staff found in the for loop above)
         if (lowestCaseLoad == null) {
-            return null;
+            throw new NoSuchElementException("No staff members are qualified and available for this task.");
         }
-        else {
-            changeLoad(lowestCaseLoad, lowestCaseLoad.getCaseLoad() + 1);
-            return lowestCaseLoad;
+        changeLoad(lowestCaseLoad, lowestCaseLoad.getCaseLoad() + 1);
+        return lowestCaseLoad;
+    }
+
+    //Method to check if a staff member is a better choice for taking an assignment
+    private boolean isBetterAssignment(StaffMember currentStaff, StaffMember lowestCaseLoad) {
+        if (lowestCaseLoad == null) {
+            return true;
         }
+
+        int loadPriority = Integer.compare(currentStaff.getCaseLoad(), lowestCaseLoad.getCaseLoad());
+        if (loadPriority != 0) {
+            return loadPriority < 0;
+        }
+
+        int seniorityPriority = currentStaff.getSeniority().compareTo(lowestCaseLoad.getSeniority());
+        if (seniorityPriority != 0) {
+            return seniorityPriority < 0;
+        }
+
+        return currentStaff.getStaffId().compareTo(lowestCaseLoad.getStaffId()) < 0;
     }
 
     // TODO: Lower the staff member's load by 1 (never below 0) and keep the tree ordered.
     public void release(StaffMember staff) {
+        if (staff == null) {
+            throw new IllegalArgumentException("Cannot release a null staff member.");
+        }
         //Throws an error if the staff's case load drops below zero when completing this method
         if (staff.getCaseLoad() - 1 < 0) {
             return;
@@ -119,7 +116,7 @@ public class StaffRoster {
 
     // TODO: Return how many staff members are in the roster.
     public int size() {
-        return tiers.size();
+        return tiers.size() + 1;
     }
 
     // TODO: Print each tier, most senior first, listing its staff in order.
@@ -140,6 +137,10 @@ public class StaffRoster {
 
     // TODO: Remove the member, set the new load, then add them back (the only safe way to change a load).
     private void changeLoad(StaffMember member, int newLoad) {
+        if (member == null) {
+            throw new IllegalArgumentException("Staff cannot be null.");
+        }
+
         if (member.getSeniority().compareTo(Seniority.TECH) == 0) {
             tiers.remove(Seniority.TECH, member);
             techTree.remove(member);
@@ -168,13 +169,14 @@ public class StaffRoster {
             attendingTree.add(member);
             tiers.put(Seniority.ATTENDING, attendingTree);
         }
-        else {
-            throw new IllegalArgumentException();
-        }
     }
 
     // TODO: Call assign(), record the treatment in history with the chosen staffId, and return that staff member.
     public StaffMember assignTreatment(String patientID, String treatment, String timestamp, Seniority required) {
+        if (required == null || patientID == null || treatment == null || timestamp == null) {
+            throw new IllegalArgumentException("Cannot have null values assigned.");
+        }
+
         StaffMember assignedStaff = assign(required);
         String assignedStaffId = assignedStaff.getStaffId();
         history.addTreatment(patientID, treatment, timestamp, assignedStaffId);
@@ -183,54 +185,61 @@ public class StaffRoster {
 
     // TODO: Pop the globally most recent treatment with your Week 3 undo, release whoever performed it, and return them (null if none).
     public StaffMember undoLastAssignment() {
-        if (history.peekTreatmentRecord() == null) {
+        TreatmentRecord record = history.undoLastAssignment();
+        if (record == null) {
             return null;
         }
-        StaffMember toReturn = findById(history.peekTreatmentRecord().getPatientID());
-        history.undoLastAssignment();
-        return toReturn;
+        StaffMember toReturn = findById(record.getPerformedBy());
+        if (toReturn == null) {
+            return null;
+        }
+        else {
+            release(toReturn);
+            return toReturn;
+        }
     }
 
     // TODO: Return the staff member with this staffId, or null if they are not in the roster.
     private StaffMember findById(String staffId) {
-        boolean foundId = false;
-        StaffMember toReturn = null;
+        if (staffId == null) {
+            return null;
+        }
         staffIterator = techTree.iterator();
 
-        while (staffIterator.hasNext() || foundId == true) {
-            if (staffIterator.next().getStaffId().compareTo(staffId) == 0) {
-                toReturn = staffIterator.next();
-                foundId = true;
+        while (staffIterator.hasNext()) {
+            StaffMember currentStaff = staffIterator.next();
+            if (currentStaff.getStaffId().equals(staffId)) {
+                return currentStaff;
             }
         }
 
         staffIterator = nurseTree.iterator();
 
-        while (staffIterator.hasNext() || foundId == true) {
-            if (staffIterator.next().getStaffId().compareTo(staffId) == 0) {
-                toReturn = staffIterator.next();
-                foundId = true;
+        while (staffIterator.hasNext()) {
+            StaffMember currentStaff = staffIterator.next();
+            if (currentStaff.getStaffId().equals(staffId)) {
+                return currentStaff;
             }
         }
 
         staffIterator = residentTree.iterator();
 
-        while (staffIterator.hasNext() || foundId == true) {
-            if (staffIterator.next().getStaffId().compareTo(staffId) == 0) {
-                toReturn = staffIterator.next();
-                foundId = true;
+        while (staffIterator.hasNext()) {
+            StaffMember currentStaff = staffIterator.next();
+            if (currentStaff.getStaffId().equals(staffId)) {
+                return currentStaff;
             }
         }
 
         staffIterator = attendingTree.iterator();
 
-        while (staffIterator.hasNext() || foundId == true) {
-            if (staffIterator.next().getStaffId().compareTo(staffId) == 0) {
-                toReturn = staffIterator.next();
-                foundId = true;
+        while (staffIterator.hasNext()) {
+            StaffMember currentStaff = staffIterator.next();
+            if (currentStaff.getStaffId().equals(staffId)) {
+                return currentStaff;
             }
         }
 
-        return toReturn;
+        return null;
     }
 }

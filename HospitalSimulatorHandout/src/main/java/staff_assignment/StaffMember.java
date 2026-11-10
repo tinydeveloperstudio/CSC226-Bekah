@@ -47,8 +47,11 @@ public class StaffMember implements Comparable<StaffMember> {
             if (other.getStaffId().compareTo(staffId) > 0) {
                 return -1;
             }
-            else {
+            else if (other.getStaffId().compareTo(staffId) < 0){
                 return 1;
+            }
+            else {
+                return 0;
             }
         }
     }
